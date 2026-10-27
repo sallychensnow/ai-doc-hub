@@ -1,0 +1,89 @@
+PATIENT MEDICAL REPORT
+==============================================
+Report ID: MR-2026-09-00342
+Date: September 10, 2026
+Facility: Beijing United Family Hospital
+         北京和睦家医院
+
+PATIENT INFORMATION
+-------------------
+Name: Zhang Wei (张伟)
+Gender: Male
+Date of Birth: 1978-03-22
+Age: 48
+ID Number: 110105197803XXXXXX
+Blood Type: A+
+Allergies: Penicillin, Shellfish
+
+CHIEF COMPLAINT
+---------------
+Patient presents with persistent chest discomfort and shortness
+of breath during moderate physical activity for the past 3 weeks.
+Also reports occasional dizziness upon standing.
+
+VITAL SIGNS
+-----------
+Blood Pressure: 148/92 mmHg (elevated)
+Heart Rate: 88 bpm
+Temperature: 36.7°C
+Respiratory Rate: 18 breaths/min
+SpO2: 96%
+BMI: 27.3 (overweight)
+Weight: 82 kg
+Height: 173 cm
+
+LABORATORY RESULTS
+------------------
+| Test                  | Result    | Reference Range    | Status   |
+|-----------------------|-----------|--------------------|----------|
+| Fasting Glucose       | 7.2 mmol/L| 3.9-6.1           | HIGH     |
+| HbA1c                 | 6.8%      | <6.0%             | HIGH     |
+| Total Cholesterol     | 6.1 mmol/L| <5.2              | HIGH     |
+| LDL Cholesterol       | 4.2 mmol/L| <3.4              | HIGH     |
+| HDL Cholesterol       | 0.9 mmol/L| >1.0              | LOW      |
+| Triglycerides         | 2.8 mmol/L| <1.7              | HIGH     |
+| Creatinine            | 89 µmol/L | 59-104            | NORMAL   |
+| ALT                   | 45 U/L    | 7-56              | NORMAL   |
+| TSH                   | 2.1 mIU/L | 0.4-4.0           | NORMAL   |
+| NT-proBNP             | 320 pg/mL | <125              | HIGH     |
+
+ECG: Sinus rhythm, left ventricular hypertrophy pattern
+Echocardiogram: LVEF 52%, mild diastolic dysfunction Grade I
+
+DIAGNOSIS
+---------
+1. Hypertension Stage 2 (高血压2期)
+2. Pre-diabetes / Impaired Fasting Glucose (空腹血糖受损)
+3. Dyslipidemia (血脂异常)
+4. Suspected early heart failure (疑似早期心功能不全)
+
+TREATMENT PLAN
+--------------
+Medications:
+  - Amlodipine 5mg once daily (降压)
+  - Atorvastatin 20mg at bedtime (降脂)
+  - Metformin 500mg twice daily (控糖)
+  - Low-dose Aspirin 100mg once daily
+
+Lifestyle Modifications:
+  - DASH diet, sodium intake <5g/day
+  - Moderate aerobic exercise 150 min/week
+  - Weight reduction target: 75 kg (lose 7 kg)
+  - Smoking cessation counseling
+  - Limit alcohol to <2 units/day
+
+Follow-up:
+  - Recheck BP in 2 weeks
+  - Repeat labs in 3 months
+  - Cardiology referral for stress test
+  - Ophthalmology screening (diabetic retinopathy)
+
+ATTENDING PHYSICIAN
+-------------------
+Dr. Liu Jianming (刘建明)
+Department of Internal Medicine / Cardiology
+License No: 110XXXXXXXXXXXXX
+Beijing United Family Hospital
+
+Signature: _________________________
+Date: 2026-09-10

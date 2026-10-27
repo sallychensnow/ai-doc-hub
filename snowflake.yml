@@ -1,0 +1,23 @@
+definition_version: "2"
+
+entities:
+  ai_doc_hub:
+    type: snowflake-app
+    identifier:
+      name: AI_DOC_HUB
+      database: SNOWFLAKE_APPS
+      schema: PUBLIC
+    artifacts:
+      - src: ./*
+        dest: ./
+        ignore:
+          - node_modules
+          - .env*
+          - __pycache__
+          - "*.pyc"
+          - .next
+          - .git
+          - snowflake.log
+
+    query_warehouse: AI_DOC_HUB_WH
+    code_workspace: SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS

@@ -1,0 +1,54 @@
+======================================
+          COMMERCIAL INVOICE
+======================================
+
+Invoice No:    INV-2026-08150
+Date:          2026-08-15
+Due Date:      2026-09-15
+
+SELLER:
+  Snowflake Computing Inc.
+  106 E Babcock St, Suite 3A
+  Bozeman, MT 59715, USA
+  Tax ID: 82-3742019
+
+BUYER:
+  Beijing CloudTech Solutions Ltd.
+  北京市朝阳区望京SOHO T3 1205室
+  Beijing, China 100102
+  Unified Social Credit Code: 91110105MA01XXXXX
+
+----------------------------------------
+ITEM DESCRIPTION            QTY   UNIT PRICE    AMOUNT
+----------------------------------------
+Snowflake Enterprise        1     $125,000.00   $125,000.00
+  Edition License (Annual)
+Professional Services       240   $350.00/hr    $84,000.00
+  - Data Migration
+  - Architecture Review
+Cortex AI Add-on            1     $45,000.00    $45,000.00
+  (Annual Subscription)
+Training & Enablement       3     $8,500.00     $25,500.00
+  (3-day onsite workshop)
+----------------------------------------
+                           SUBTOTAL:  $279,500.00
+                           TAX (0%):  $0.00
+                           TOTAL:     $279,500.00
+                           CURRENCY:  USD
+----------------------------------------
+
+PAYMENT TERMS: Net 30
+BANK: Silicon Valley Bank
+ACCOUNT: 3301-XXXX-XXXX
+SWIFT: SVBKUS6S
+ROUTING: 121140399
+
+Notes:
+- This invoice covers the period 2026-09-01 to 2027-08-31
+- Payment in USD via wire transfer
+- Late payment subject to 1.5% monthly interest
+- 合同编号: CT-2026-BJ-0815
+
+Authorized Signature: _________________________
+Name: Sarah Johnson
+Title: VP of Sales, APAC Region
