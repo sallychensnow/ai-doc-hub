@@ -1,4 +1,5 @@
 import { querySnowflake } from "@/lib/snowflake"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
@@ -16,14 +17,14 @@ export async function GET(req: Request) {
     const rows = await querySnowflake(
       `SELECT FILE_NAME, FILE_HASH, STAGE_FILE_PATH,
               GET_PRESIGNED_URL(
-                @RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE,
+                @${DATA_SCHEMA}.RAG_PDF_STAGE,
                 COALESCE(
-                  REPLACE(STAGE_FILE_PATH, '@RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE/', ''),
+                  REPLACE(STAGE_FILE_PATH, '@${DATA_SCHEMA}.RAG_PDF_STAGE/', ''),
                   FILE_HASH || '.pdf'
                 ),
                 3600
               ) AS url
-       FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS
+       FROM ${DATA_SCHEMA}.RAG_DOCUMENTS
        WHERE DOCUMENT_ID = ?`,
       { binds: [docId] },
     )

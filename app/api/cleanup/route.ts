@@ -1,5 +1,6 @@
 import { querySnowflake } from "@/lib/snowflake"
 import { STAGE, STAGE_NAME, TEMP_PREFIX, refreshStage, removeStageFile } from "@/lib/stage"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
@@ -15,7 +16,7 @@ async function findOrphans(minAgeMinutes: number) {
       WHERE STARTSWITH(d.RELATIVE_PATH, '${TEMP_PREFIX}/')
         AND d.LAST_MODIFIED < DATEADD('minute', -?, CURRENT_TIMESTAMP())
         AND NOT EXISTS (
-          SELECT 1 FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS r
+          SELECT 1 FROM ${DATA_SCHEMA}.RAG_DOCUMENTS r
            WHERE REPLACE(r.STAGE_FILE_PATH, '@${STAGE_NAME}/', '') = d.RELATIVE_PATH
         )
       ORDER BY d.LAST_MODIFIED`,

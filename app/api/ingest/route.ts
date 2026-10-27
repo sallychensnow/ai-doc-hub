@@ -1,5 +1,6 @@
 import { querySnowflake } from "@/lib/snowflake"
 import crypto from "crypto"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
@@ -51,7 +52,7 @@ export async function POST(req: Request) {
 
     // Check if document already exists
     const existing = await querySnowflake(
-      `SELECT DOCUMENT_ID FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS WHERE DOCUMENT_ID = ?`,
+      `SELECT DOCUMENT_ID FROM ${DATA_SCHEMA}.RAG_DOCUMENTS WHERE DOCUMENT_ID = ?`,
       { binds: [docId] },
     )
     if (existing.length > 0) {
@@ -63,11 +64,11 @@ export async function POST(req: Request) {
 
     // Insert document record
     const stagePath = stageFile
-      ? `@RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE/${stageFile}`
+      ? `@${DATA_SCHEMA}.RAG_PDF_STAGE/${stageFile}`
       : null
 
     await querySnowflake(
-      `INSERT INTO RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS
+      `INSERT INTO ${DATA_SCHEMA}.RAG_DOCUMENTS
         (DOCUMENT_ID, FILE_NAME, FILE_HASH, FILE_SIZE, TOTAL_PAGES, SOURCE, STAGE_FILE_PATH)
        VALUES (?, ?, ?, ?, ?, 'app_upload', ?)`,
       { binds: [docId, fileName, fileHash, fileSize, chunks.length, stagePath] },
@@ -77,7 +78,7 @@ export async function POST(req: Request) {
     for (let i = 0; i < chunks.length; i++) {
       const chunkId = `${docId}_chunk_${String(i).padStart(4, "0")}`
       await querySnowflake(
-        `INSERT INTO RAG_DEMO.RAG_CORTEX.RAG_CHUNKS
+        `INSERT INTO ${DATA_SCHEMA}.RAG_CHUNKS
           (CHUNK_ID, DOCUMENT_ID, FILE_NAME, CHUNK_INDEX, PAGE_NUMBER, CHUNK_TEXT, CHUNK_LENGTH)
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
         { binds: [chunkId, docId, fileName, i, 1, chunks[i], chunks[i].length] },

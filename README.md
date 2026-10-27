@@ -56,7 +56,7 @@ account   = "<org>-<account>"        # e.g. myorg-myaccount (China: myorg-myacco
 user      = "<user>"
 authenticator = "externalbrowser"     # or "snowflake" + password, or key-pair
 role      = "ACCOUNTADMIN"
-warehouse = "AI_DOC_HUB_WH"
+warehouse = "AI_DOC_WH"
 ```
 
 Test it: `snow connection test --connection my-connection`
@@ -71,13 +71,13 @@ snow sql -f setup.sql --connection my-connection
 
 | Object | Purpose |
 |---|---|
-| `AI_DOC_HUB_WH` (XS, auto-suspend 60s) | Query warehouse for the app and Cortex Search |
+| `AI_DOC_WH` (XS, auto-suspend 60s) | Query warehouse for the app and Cortex Search |
 | `SNOWFLAKE_APPS` database | Hosts the app. A **standard** database, so the app can be shared with other roles (personal `USER$` databases cannot) |
-| `RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE` | Internal stage (SSE encryption + directory table) for original files |
-| `RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS` / `RAG_CHUNKS` | Document metadata and text chunks |
-| `RAG_DEMO.RAG_CORTEX.TEST` | Cortex Search Service over `RAG_CHUNKS.CHUNK_TEXT` (`snowflake-arctic-embed-l-v2.0`) |
+| `AI_DOC_HUB.RAG_CORTEX.RAG_PDF_STAGE` | Internal stage (SSE encryption + directory table) for original files |
+| `AI_DOC_HUB.RAG_CORTEX.RAG_DOCUMENTS` / `RAG_CHUNKS` | Document metadata and text chunks |
+| `AI_DOC_HUB.RAG_CORTEX.TEST` | Cortex Search Service over `RAG_CHUNKS.CHUNK_TEXT` (`snowflake-arctic-embed-l-v2.0`) |
 
-> The app code references these exact names. Keep them unchanged unless you also update the SQL in `app/api/*/route.ts` and `lib/stage.ts`.
+> The app code references these exact names. Keep them unchanged unless you also update the SQL in `app/api/*/route.ts` and `lib/config.ts` (`DATA_SCHEMA`).
 
 ### Step 4: Deploy
 
@@ -101,14 +101,14 @@ identifier:
   name: AI_DOC_HUB
   database: SNOWFLAKE_APPS
   schema: PUBLIC
-query_warehouse: AI_DOC_HUB_WH
+query_warehouse: AI_DOC_WH
 code_workspace: SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS
 ```
 
 ### Step 5 (optional): Share with other users
 
 The app runs with **owner's rights**: queries execute as the role that deployed it, so viewers
-don't need privileges on `RAG_DEMO`. They only need access to the app:
+don't need privileges on `AI_DOC_HUB`. They only need access to the app:
 
 ```sql
 GRANT USAGE ON DATABASE SNOWFLAKE_APPS TO ROLE <ROLE>;
@@ -130,7 +130,7 @@ GRANT USAGE ON APPLICATION SERVICE SNOWFLAKE_APPS.PUBLIC.AI_DOC_HUB TO ROLE <ROL
 | `Cannot grant privileges on application service ... personal database` | The app was deployed to `USER$...`. Keep `database: SNOWFLAKE_APPS` in `snowflake.yml` and redeploy |
 | `Database 'SNOWFLAKE_APPS' does not exist` during deploy | Run Step 3 first, with the **same** connection |
 | `invalid value ... for property 'EMBEDDING_MODEL'` | The model isn't available in your region. Change it in `setup.sql` (e.g. `snowflake-arctic-embed-m-v1.5`) |
-| Uploaded files not visible in Snowsight stage browser | Snowsight reads the directory table. The app refreshes it automatically; for manual PUTs run `ALTER STAGE RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE REFRESH;` |
+| Uploaded files not visible in Snowsight stage browser | Snowsight reads the directory table. The app refreshes it automatically; for manual PUTs run `ALTER STAGE AI_DOC_HUB.RAG_CORTEX.RAG_PDF_STAGE REFRESH;` |
 | Search returns nothing right after saving | Wait for the Cortex Search refresh (`TARGET_LAG = '1 minute'`) |
 | App logs | `SELECT SYSTEM$GET_APPLICATION_SERVICE_LOGS('SNOWFLAKE_APPS.PUBLIC.AI_DOC_HUB');` (requires MONITOR) |
 
@@ -138,8 +138,8 @@ GRANT USAGE ON APPLICATION SERVICE SNOWFLAKE_APPS.PUBLIC.AI_DOC_HUB TO ROLE <ROL
 
 ```sql
 DROP APPLICATION SERVICE IF EXISTS SNOWFLAKE_APPS.PUBLIC.AI_DOC_HUB;
-DROP DATABASE IF EXISTS RAG_DEMO;        -- deletes all documents and the stage
-DROP WAREHOUSE IF EXISTS AI_DOC_HUB_WH;
+DROP DATABASE IF EXISTS AI_DOC_HUB;        -- deletes all documents and the stage
+DROP WAREHOUSE IF EXISTS AI_DOC_WH;
 ```
 
 ## Project Structure

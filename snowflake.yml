@@ -19,5 +19,5 @@ entities:
           - .git
           - snowflake.log
 
-    query_warehouse: AI_DOC_HUB_WH
+    query_warehouse: AI_DOC_WH
     code_workspace: SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS

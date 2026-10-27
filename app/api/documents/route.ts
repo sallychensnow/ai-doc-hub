@@ -1,4 +1,5 @@
 import { querySnowflake } from "@/lib/snowflake"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
@@ -8,15 +9,15 @@ export async function GET() {
       SELECT d.DOCUMENT_ID, d.FILE_NAME, d.FILE_SIZE, d.TOTAL_PAGES, d.SOURCE, d.CREATED_AT,
              COUNT(c.CHUNK_ID) AS chunk_count,
              GET_PRESIGNED_URL(
-               @RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE,
+               @${DATA_SCHEMA}.RAG_PDF_STAGE,
                COALESCE(
-                 REPLACE(d.STAGE_FILE_PATH, '@RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE/', ''),
+                 REPLACE(d.STAGE_FILE_PATH, '@${DATA_SCHEMA}.RAG_PDF_STAGE/', ''),
                  d.FILE_HASH || '.pdf'
                ),
                3600
              ) AS download_url
-      FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS d
-      LEFT JOIN RAG_DEMO.RAG_CORTEX.RAG_CHUNKS c ON d.DOCUMENT_ID = c.DOCUMENT_ID
+      FROM ${DATA_SCHEMA}.RAG_DOCUMENTS d
+      LEFT JOIN ${DATA_SCHEMA}.RAG_CHUNKS c ON d.DOCUMENT_ID = c.DOCUMENT_ID
       GROUP BY d.DOCUMENT_ID, d.FILE_NAME, d.FILE_HASH, d.FILE_SIZE, d.TOTAL_PAGES, d.SOURCE, d.CREATED_AT, d.STAGE_FILE_PATH
       ORDER BY d.CREATED_AT DESC
     `)

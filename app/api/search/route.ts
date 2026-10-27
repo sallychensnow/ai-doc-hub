@@ -1,4 +1,5 @@
 import { querySnowflake } from "@/lib/snowflake"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
@@ -14,7 +15,7 @@ export async function GET(req: Request) {
 
     const rows = await querySnowflake(
       `SELECT PARSE_JSON(SNOWFLAKE.CORTEX.SEARCH_PREVIEW(
-        'RAG_DEMO.RAG_CORTEX.TEST',
+        '${DATA_SCHEMA}.TEST',
         ?
       )) AS result`,
       { binds: [JSON.stringify({ query: q, columns: ["CHUNK_TEXT", "FILE_NAME", "PAGE_NUMBER", "CHUNK_ID"], limit })] },

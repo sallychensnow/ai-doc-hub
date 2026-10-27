@@ -1,12 +1,13 @@
 import { querySnowflake } from "@/lib/snowflake"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
 export async function GET() {
   try {
     const [docRows, chunkRows] = await Promise.all([
-      querySnowflake("SELECT COUNT(*) AS cnt, MAX(CREATED_AT) AS latest FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS"),
-      querySnowflake("SELECT COUNT(*) AS cnt, COUNT(DISTINCT DOCUMENT_ID) AS doc_cnt FROM RAG_DEMO.RAG_CORTEX.RAG_CHUNKS"),
+      querySnowflake(`SELECT COUNT(*) AS cnt, MAX(CREATED_AT) AS latest FROM ${DATA_SCHEMA}.RAG_DOCUMENTS`),
+      querySnowflake(`SELECT COUNT(*) AS cnt, COUNT(DISTINCT DOCUMENT_ID) AS doc_cnt FROM ${DATA_SCHEMA}.RAG_CHUNKS`),
     ])
     return Response.json({
       totalDocuments: Number(docRows[0]?.CNT ?? 0),

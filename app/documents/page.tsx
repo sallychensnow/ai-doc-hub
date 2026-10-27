@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { DATA_SCHEMA } from "@/lib/config"
 
 interface Doc {
   documentId: string
@@ -70,7 +71,7 @@ export default function DocumentsPage() {
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold mb-1">Document Library</h1>
-          <p className="text-xs text-muted-foreground">All indexed documents in RAG_DEMO.RAG_CORTEX</p>
+          <p className="text-xs text-muted-foreground">All indexed documents in {DATA_SCHEMA}</p>
         </div>
         <button
           onClick={handleCleanup}

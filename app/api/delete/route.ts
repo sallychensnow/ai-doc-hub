@@ -1,5 +1,6 @@
 import { querySnowflake } from "@/lib/snowflake"
 import { refreshStage, removeStageFile, toRelativePath } from "@/lib/stage"
+import { DATA_SCHEMA } from "@/lib/config"
 
 export const dynamic = "force-dynamic"
 
@@ -13,7 +14,7 @@ export async function DELETE(req: Request) {
 
     // Get stage location of the original file
     const rows = await querySnowflake(
-      `SELECT FILE_HASH, STAGE_FILE_PATH FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS WHERE DOCUMENT_ID = ?`,
+      `SELECT FILE_HASH, STAGE_FILE_PATH FROM ${DATA_SCHEMA}.RAG_DOCUMENTS WHERE DOCUMENT_ID = ?`,
       { binds: [docId] },
     )
     if (!rows.length) {
@@ -25,13 +26,13 @@ export async function DELETE(req: Request) {
 
     // Delete chunks first (FK dependency)
     const chunkResult = await querySnowflake(
-      `DELETE FROM RAG_DEMO.RAG_CORTEX.RAG_CHUNKS WHERE DOCUMENT_ID = ?`,
+      `DELETE FROM ${DATA_SCHEMA}.RAG_CHUNKS WHERE DOCUMENT_ID = ?`,
       { binds: [docId] },
     )
 
     // Delete document record
     await querySnowflake(
-      `DELETE FROM RAG_DEMO.RAG_CORTEX.RAG_DOCUMENTS WHERE DOCUMENT_ID = ?`,
+      `DELETE FROM ${DATA_SCHEMA}.RAG_DOCUMENTS WHERE DOCUMENT_ID = ?`,
       { binds: [docId] },
     )
 

@@ -1,6 +1,7 @@
 import { querySnowflake } from "@/lib/snowflake"
+import { DATA_SCHEMA } from "@/lib/config"
 
-export const STAGE_NAME = "RAG_DEMO.RAG_CORTEX.RAG_PDF_STAGE"
+export const STAGE_NAME = `${DATA_SCHEMA}.RAG_PDF_STAGE`
 export const STAGE = `@${STAGE_NAME}`
 export const TEMP_PREFIX = "_parse_temp"
 
