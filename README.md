@@ -81,6 +81,37 @@ snow sql -f setup.sql --connection my-connection
 
 ### Step 4: Deploy
 
+**4a. Check `snowflake.yml`**
+
+If you ran `setup.sql` unchanged, **no edits are needed**. Otherwise update the fields below
+(they are also marked `[CHANGE IF NEEDED]` in [`snowflake.yml`](snowflake.yml)):
+
+| Field | Default | Change when |
+|---|---|---|
+| `identifier.name` | `AI_DOC_HUB` | You want a different app name, or deploy a second copy |
+| `identifier.database` | `SNOWFLAKE_APPS` | You host apps in another database. It must already exist and must **not** be a personal `USER$` database (those can't be shared) |
+| `identifier.schema` | `PUBLIC` | You use another schema in that database |
+| `query_warehouse` | `AI_DOC_WH` | You want an existing warehouse instead. The deploy role needs `USAGE` on it |
+| `code_workspace` | `SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS` | Always keep `<database>.<schema>` the same as `identifier` (the last part is the workspace name, created automatically) |
+
+> **Data location is separate.** `snowflake.yml` controls where the *app* runs. The app's *data*
+> (stage, tables, Cortex Search) lives in `AI_DOC_HUB.RAG_CORTEX`. To move the data, change
+> `DATA_SCHEMA` in [`lib/config.ts`](lib/config.ts) **and** every `AI_DOC_HUB.RAG_CORTEX` in `setup.sql`.
+> If you change the warehouse name, also update `CREATE WAREHOUSE` and `WAREHOUSE =` in `setup.sql`.
+
+Example: deploying to an existing `ANALYTICS_APPS.DEMO` schema with warehouse `COMPUTE_WH`:
+
+```yaml
+    identifier:
+      name: AI_DOC_HUB
+      database: ANALYTICS_APPS
+      schema: DEMO
+    query_warehouse: COMPUTE_WH
+    code_workspace: ANALYTICS_APPS.DEMO.SNOWFLAKE_APPS
+```
+
+**4b. Run deploy**
+
 ```bash
 snow app deploy --connection my-connection
 ```
@@ -93,17 +124,6 @@ App ready at https://<id>.snowflake-app.<domain>
 ```
 
 Open the URL and sign in with your Snowflake user. To redeploy after code changes, run the same command again (in-place upgrade).
-
-The target location is configured in [`snowflake.yml`](snowflake.yml):
-
-```yaml
-identifier:
-  name: AI_DOC_HUB
-  database: SNOWFLAKE_APPS
-  schema: PUBLIC
-query_warehouse: AI_DOC_WH
-code_workspace: SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS
-```
 
 ### Step 5 (optional): Share with other users
 

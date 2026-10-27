@@ -1,12 +1,15 @@
+# Deployment target for `snow app deploy`.
+# Defaults match setup.sql, so after running setup.sql no edits are needed.
+# Fields marked [CHANGE IF NEEDED] only need editing if you use your own names.
 definition_version: "2"
 
 entities:
   ai_doc_hub:
     type: snowflake-app
     identifier:
-      name: AI_DOC_HUB
-      database: SNOWFLAKE_APPS
-      schema: PUBLIC
+      name: AI_DOC_HUB               # [CHANGE IF NEEDED] app (APPLICATION SERVICE) name; unique per schema
+      database: SNOWFLAKE_APPS       # [CHANGE IF NEEDED] must exist and must NOT be a personal USER$ database
+      schema: PUBLIC                 # [CHANGE IF NEEDED] schema inside the database above
     artifacts:
       - src: ./*
         dest: ./
@@ -19,5 +22,5 @@ entities:
           - .git
           - snowflake.log
 
-    query_warehouse: AI_DOC_WH
-    code_workspace: SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS
+    query_warehouse: AI_DOC_WH       # [CHANGE IF NEEDED] existing warehouse the deploy role can USE
+    code_workspace: SNOWFLAKE_APPS.PUBLIC.SNOWFLAKE_APPS  # [CHANGE IF NEEDED] keep <database>.<schema> in sync with identifier; created automatically
